@@ -1,0 +1,21 @@
+{
+  "name": "spn-sqlite",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --disable-warning=ExperimentalWarning --test test/run.js",
+    "test-concurrency": "node --disable-warning=ExperimentalWarning test/test-concurrency.js",
+    "test-better-concurrency": "node --disable-warning=ExperimentalWarning test/test-concurrency.js --better-sqlite3"
+  },
+  "keywords": ["sqlite", "non-blocking", "worker", "thread", "sqlite3"],
+  "author": "Spencer A. Lockhart",
+  "license": "MIT",
+  "description": "A main-thread-friendly, no-dependency SQLite library for Node.js using worker threads.",
+  "optionalDependencies": {
+    "better-sqlite3": "^12.5.0"
+  },
+  "devDependencies": {
+    "fast-check": "^4.5.3"
+  }
+}
