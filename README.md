@@ -54,15 +54,27 @@ This library is for real-world usage, not numbers. It loads up workers and dispa
 ```js
 import DB from 'spn-sqlite';
 
-const db = new DB; // in-memory default; node:sqlite driver default
+const db = new DB;
+
+/*
+
+Try this:
+
+const db = new DB({
+  filename: "./my_database.db",
+  driver: "better-sqlite"
+});
+
+*/
 
 await db.exec`PRAGMA journal_mode = WAL`;
 
 await db.exec`
+  DROP TABLE IF EXISTS users;
   CREATE TABLE users (
     id TEXT PRIMARY KEY,
     username TEXT UNIQUE NOT NULL
-  )
+  );
 `;
 
 await db.run`INSERT INTO users (id, username) VALUES (${'u1'}, ${'alice'})`;
@@ -72,7 +84,7 @@ console.log(user);
 
 let all_users = await db.all`SELECT * FROM users`;
 console.log(all_users);
-await db.close(); // Gracefully shuts down workers
+await db.close(); // Gracefully shuts down
 ```
 
 ## API
@@ -84,7 +96,6 @@ new DB({
   filename = './my_database.db',   // Database file path or ':memory:'
   driver = 'node:sqlite',          // 'node:sqlite', 'better-sqlite'
   options = {},                    // Passed directly to the underlying driver- these are specific to the respective driver; see their docs.
-  workers = 1                      // Choose how many workers run. 1 is usually fastest- but you can add more workers if you do a lot of reads
 })
 ```
 
@@ -92,9 +103,6 @@ new DB({
 - `node:sqlite` / `node:sqlite3` → built-in driver (default)
 - `better-sqlite` / `better-sqlite3` → native driver (requires `better-sqlite3` installed)
 
-**How many worker are recommended?**:
-- `better-sqlite*` → `1` (multiple workers offer no benefit)
-- `node:sqlite` → `1` is best for most cases- use WAL to enable any number of reads during a write- if that doesn't help try adding a worker but it's probably something else- which means more workers will just make it slower.
 
 ### Query Methods
 
