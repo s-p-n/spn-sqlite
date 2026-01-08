@@ -1,6 +1,6 @@
 {
   "name": "spn-sqlite",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -17,5 +17,9 @@
   },
   "devDependencies": {
     "fast-check": "^4.5.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/s-p-n/spn-sqlite.git"
   }
 }
